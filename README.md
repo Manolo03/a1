@@ -1,9 +1,5 @@
 # Assignment 1 - Kinematic walking controller
 
-**NOTE for TA**: auto-grading scripts are under ```misc/```.
-
-----
-
 **Hand-in:** March 26, 2024, 18:00 CEST
 
 **Important:**
