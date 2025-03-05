@@ -396,7 +396,7 @@ In the tutorial session, we will have small competition to see who can make the 
 
 The box-like hexpod robot we have been playing with actually represents the kinematic model of the [SpiderPi robot from Hiwonder](https://www.hiwonder.com/products/spiderpi?variant=40213126381655).
 
-- Select your best gait pattern and the right forward walking speed (no turning and sideway speed) and record a trajectory that covers 1 meter in simulation (see the marked points on the black grid in the image below).
+- Select your best gait pattern and the right forward walking speed (no turning and sideway speed) and record a trajectory for **20 seconds**. Note down the distance the robot covered in simulation (you can approximate that by counting black grid unit, 1 unit is 1 meter, see the marked points on the black grid in the image below).
 - Click on the `Record Trajectory to a JSON file` button in the app to start recording and unclick it when you are done.
 
 ![](imgs/recording.png)
