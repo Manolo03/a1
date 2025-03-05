@@ -305,7 +305,7 @@ If you are not familiar with git branching, you can learn more about how to crea
 - Visualize your terrain in ```locomotion``` app.
 - **Please record a video ~ 20 secs demonstrating your implementation. The robot in the video should walk on an uneven
   terrain, and your video should be visible enough to see how well your controller performs the task. Upload it to
-  YouTube or any other video hosting website and add its link to the `Demo video URL for ex.5` entry of the `my-info.json` file.**
+  YouTube or any other video hosting website and add its link to the `Demo video URL for ex.4` entry of the `my-info.json` file.**
   If I cannot play or access your video until the deadline, you won't get full points.
 - Please adjust your camera zoom and perspective so that your robot is well visible in the video. You may not get full
   point if your robot is not clearly visible.
@@ -366,7 +366,7 @@ The following code is the default one we used to define the trotting gait for th
 - Your task is to replace the default foot contact pattern with a new one that makes the hexpod robot walk in a coordinated way. You don't need to change anything in the low-level gait generation code in `src\libs\simAndControl\locomotion\FootFallPattern.h`. But feel free to read them to understand the input/output and the code logic.
 - **Please record a video ~ 20 secs demonstrating your implementation. The robot in the video should walk on an uneven
   terrain, and your video should be visible enough to see how well your controller performs the task. Upload it to
-  YouTube or any other video hosting website and add its link to the `Demo video URL for ex.6` entry of the `my-info.json` file.**
+  YouTube or any other video hosting website and add its link to the `Demo video URL for ex.5` entry of the `my-info.json` file.**
   If I cannot play or access your video until the deadline, you won't get full points.
 - Please adjust your camera zoom and perspective so that your robot is well visible in the video. You may not get full point if your robot is not clearly visible.
 
@@ -396,12 +396,13 @@ In the tutorial session, we will have small competition to see who can make the 
 
 The box-like hexpod robot we have been playing with actually represents the kinematic model of the [SpiderPi robot from Hiwonder](https://www.hiwonder.com/products/spiderpi?variant=40213126381655).
 
-- Select your best gait pattern and the right forward walking speed (no turning and sideway speed) and record a trajectory for **20 seconds**. Note down the distance the robot covered in simulation (you can approximate that by counting black grid unit, 1 unit is 1 meter, see the marked points on the black grid in the image below).
+- Select your best gait pattern and the right forward walking speed (no turning and sideway speed) and record a trajectory for **20 seconds**. Note down the distance the robot covered in simulation (you can approximate that by counting black grid unit, 1 unit is 1 meter, see the marked points on the black grid in the image below). Please do not change the `dt` parameter in the `app.h` file to keep the simulation speed consistent across all experiments.
 - Click on the `Record Trajectory to a JSON file` button in the app to start recording and unclick it when you are done.
 
 ![](imgs/recording.png)
 
-You should find a `trajectory.json` file in the `data` folder. Copy that file to the google drive link that will be shared with you through Moodle announcement.
+You should find a `trajectory.json` file in the `data` folder. 
+Rename that file with your name in the format of `trajectory_<your eth account name>.json` and upload that file to the google drive link that will be shared with you through Moodle announcement.
 We will replay this trajectory on the real robot during the tutorial session!
 
 # Final Notes
