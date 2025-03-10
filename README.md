@@ -1,6 +1,6 @@
 # Assignment 1 - Kinematic walking controller
 
-**Hand-in:** March 26, 2024, 18:00 CEST
+**Hand-in:** March 26, 2025, 18:00 CEST
 
 **Important:**
 Before you submit your final commit, please make sure:
