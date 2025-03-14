@@ -8,6 +8,8 @@
 #include <robot/RBJoint.h>
 #include <robot/RBUtils.h>
 #include <utils/trajectory.h>
+#include <utils/mathUtils.h>
+#include <math.h>
 
 namespace crl {
 
@@ -250,9 +252,11 @@ private:
             // - quaternion heading = Roty(headingAngle). (we use y-up world frame coordinate)
             // - you can get the robot's forward direction vector from robot->forward
             // - you can get the robot's sideways direction vector by RBGlobals::worldUp.cross(robot->forward)
-
-            pos = pos /* + TODO */;
-            headingAngle = headingAngle /* + TODO */;
+            V3D rotated_forward = heading*(robot->forward); 
+            V3D rotated_sideway = heading*rotateVec(robot->forward, PI/2, V3D(0,1,0)); 
+            pos = pos + vForward*dt*rotated_forward + vSideways*dt*rotated_sideway /* + TODO */;
+            
+            headingAngle = headingAngle + turningSpeed*dt /* + TODO */;
 
             t += dt;
         }

@@ -30,11 +30,14 @@ public:
 
     void solve(dVector &q, int nSteps = 10) {
         GeneralizedCoordinatesRobotRepresentation gcrr(robot);
-        
-        for (uint i = 0; i < nSteps; i++) {
-            gcrr.getQ(q);
+        Matrix J_full;
+        Matrix J;
+        V3D FK;
 
-            // get current generalized coordinates of the robots
+        for (uint i = 0; i < nSteps; i++) {
+            gcrr.getQ(q); // get current generalized coordinates of the robots
+
+            
 
             // TODO: Ex.2-2 Inverse Kinematics
             //
@@ -56,8 +59,16 @@ public:
             //   see https://eigen.tuxfamily.org/dox-devel/group__LeastSquares.html
 
             // TODO: your implementation should be here.
-
+            
+            for(int j = 0; j < endEffectorTargets.size(); j++){
+                gcrr.estimate_linear_jacobian(endEffectorTargets[j].p, endEffectorTargets[j].rb, J_full);
+                J = J_full.block(0,6,3,q.size() -6 );
+                FK = V3D(gcrr.getWorldCoordinates(endEffectorTargets[j].p, endEffectorTargets[j].rb));
+                deltaq += (J.transpose()*J).ldlt().solve(J.transpose()*(V3D(endEffectorTargets[j].target)-FK));
+                
+            }
             q.tail(q.size() - 6) += deltaq;
+            
 
             // now update gcrr with q
             gcrr.setQ(q);
