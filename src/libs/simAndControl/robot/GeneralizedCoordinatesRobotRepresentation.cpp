@@ -182,8 +182,7 @@ P3D GeneralizedCoordinatesRobotRepresentation::
         VinRB = PinRB;
         Vinparent = rotateVec(VinRB, q[qIndex], getQAxis(qIndex));
         
-        return P3D(Vinparent[0], Vinparent[1], Vinparent[2]));}
-    }
+        return P3D(Vinparent[0], Vinparent[1], Vinparent[2]);}
     
 }
 
@@ -204,17 +203,16 @@ P3D GeneralizedCoordinatesRobotRepresentation::getWorldCoordinates(const P3D &p,
         int Idx_RB = getQIdxForJoint(rb->pJoint);
         //std::cout <<  ;
     
-        while(Idx_RB > 5){
+        while(Idx_RB > 2){
             pInbase = getCoordsInParentQIdxFrameAfterRotation(Idx_RB, pInbase);
             Idx_RB = getParentQIdxOf(Idx_RB);
         }
     }
     
-
-    V3D pInbase_rotated = rotateVec(V3D(pInbase), q[5], getQAxis(5));
-    pInbase_rotated = rotateVec(pInbase_rotated, q[4], getQAxis(4));
-    pInbase_rotated = rotateVec(pInbase_rotated, q[3], getQAxis(3));
-    return P3D(q[0] + pInbase_rotated[0], q[1] + pInbase_rotated[1], q[2] + pInbase_rotated[2]);
+    // V3D pInbase_rotated = rotateVec(V3D(pInbase), q[5], getQAxis(5));
+    // pInbase_rotated = rotateVec(pInbase_rotated, q[4], getQAxis(4));
+    // pInbase_rotated = rotateVec(pInbase_rotated, q[3], getQAxis(3));
+    return P3D(q[0] + pInbase[0], q[1] + pInbase[1], q[2] + pInbase[2]);
 }
 
 // returns the global orientation associated with a specific dof q...
@@ -276,11 +274,13 @@ void GeneralizedCoordinatesRobotRepresentation::compute_dpdq(const P3D &p,
     V3D Axis;
     V3D dxdqi;
     P3D dxdqi_worldcoord;
-
+    int Idx_RB_joint;                                                          
     if(rb->pJoint != NULL){
-        int Idx_RB_joint = getQIdxForJoint(rb->pJoint);
+    Idx_RB_joint = getQIdxForJoint(rb->pJoint);}
+    else{Idx_RB_joint = 5;}
 
-        while(Idx_RB_joint > 5){
+    while(Idx_RB_joint > 2){
+        if(getJointForQIdx(Idx_RB_joint)!=NULL){
             // VinRB = PinRB - V3D(getJointForQIdx(Idx_RB_joint)->cJPos);
             // V3D Axis =  getQAxis(Idx_RB_joint);
             // R_parent = rotateVec(VinRB, q[Idx_RB_joint],Axis);
@@ -291,27 +291,29 @@ void GeneralizedCoordinatesRobotRepresentation::compute_dpdq(const P3D &p,
 
             PinParent = getCoordsInParentQIdxFrameAfterRotation(Idx_RB_joint, PinParent);
             VinParent = V3D(PinParent);
-            R_parent = VinParent - V3D(rb->pJoint->pJPos);
+            R_parent = VinParent - V3D(getJointForQIdx(Idx_RB_joint)->pJPos);
             Axis = getQAxis(Idx_RB_joint);
             dxdqi = Axis.cross(R_parent);
             dxdqi_worldcoord = getWorldCoordinates(P3D(dxdqi[0],dxdqi[1],dxdqi[2]), getJointForQIdx(Idx_RB_joint)->child);
-            dpdq.col(Idx_RB_joint) = Eigen::Vector3d(dxdqi_worldcoord);
+            dpdq.col(Idx_RB_joint) = Eigen::Vector3d(dxdqi_worldcoord[0], dxdqi_worldcoord[1], dxdqi_worldcoord[2]);
+
+            Idx_RB_joint = getParentQIdxOf(Idx_RB_joint);  }
+        else{
+            PinParent = getCoordsInParentQIdxFrameAfterRotation(Idx_RB_joint, PinParent);
+            VinParent = V3D(PinParent);
+            R_parent = VinParent;
+            Axis = getQAxis(Idx_RB_joint);
+            dxdqi = Axis.cross(R_parent);
+            dxdqi_worldcoord = getWorldCoordinates(P3D(dxdqi[0],dxdqi[1],dxdqi[2]), getJointForQIdx(Idx_RB_joint)->child);
+            dpdq.col(Idx_RB_joint) = Eigen::Vector3d(dxdqi_worldcoord[0], dxdqi_worldcoord[1], dxdqi_worldcoord[2]);
 
             Idx_RB_joint = getParentQIdxOf(Idx_RB_joint);  
         }
     }
+    //}
     dpdq.col(0) = Eigen::Vector3d(1, 0, 0);
     dpdq.col(1) = Eigen::Vector3d(0, 1, 0);
     dpdq.col(2) = Eigen::Vector3d(0, 0, 1);
-
-    V3D cross = getQAxis(5).cross(V3D(getWorldCoordinates(p, rb)));
-    P3D B_EE_w = P3D(cross[0], cross[1], cross[2]);
-    dpdq.col(5) = Eigen::Vector3d;
-
-    dpdq.col(3);
-    dpdq.col(4);
-    
-
 }
 
 // estimates the linear jacobian dp/dq using finite differences
