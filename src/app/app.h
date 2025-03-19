@@ -44,7 +44,7 @@ public:
 
         // ------------------------------------------------------------------------
         // TODO: ex 5 change the robot model from index 0 to 1
-        setupRobotAndController(robotModels[0]);
+        setupRobotAndController(robotModels[1]);
     }
 
     virtual ~App() override {
@@ -379,9 +379,11 @@ private:
         // Foot contact timeline for the quadrupe robot
         double tOffset = -0.0;
         pg.addSwingPhaseForLimb(robot->limbs[0], 0 - tOffset, 0.5 + tOffset);
-        pg.addSwingPhaseForLimb(robot->limbs[1], 0.5 - tOffset, 1.0 + tOffset);
-        pg.addSwingPhaseForLimb(robot->limbs[2], 0.5 - tOffset, 1.0 + tOffset);
-        pg.addSwingPhaseForLimb(robot->limbs[3], 0 - tOffset, 0.5 + tOffset);
+        pg.addSwingPhaseForLimb(robot->limbs[1], 0.1 - tOffset, 0.6 + tOffset);
+        pg.addSwingPhaseForLimb(robot->limbs[2], 0.2 - tOffset, 0.7 + tOffset);
+        pg.addSwingPhaseForLimb(robot->limbs[3], 0.3 - tOffset, 0.8 + tOffset);
+        pg.addSwingPhaseForLimb(robot->limbs[4], 0.4 - tOffset, 0.9 + tOffset);
+        pg.addSwingPhaseForLimb(robot->limbs[5], 0.5 - tOffset, 1 + tOffset);
         pg.strideDuration = 0.7;
 
         // TODO: ex 5 comment the code above and replace with your own gait pattern for the hexpod
