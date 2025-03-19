@@ -224,7 +224,7 @@ public:
             drawSphere(eePos, 0.025, basicShader, V3D(0, 1, 0));
         }
         crl::gui::MyModel test1;
-        //test1.modifyscale(V3D(1, 1.0/5.0, 1));
+        test1.modifyscale(V3D(1, 1, 1));
         test1.draw(basicShader);
 
         // crl::gui::MySphere test2;
