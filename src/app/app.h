@@ -223,6 +223,13 @@ public:
                 robot->limbs[i]->ee->endEffectorOffset, robot->limbs[i]->eeRB);
             drawSphere(eePos, 0.025, basicShader, V3D(0, 1, 0));
         }
+        crl::gui::MyModel test1;
+        test1.modifyscale(V3D(1, 1, 1));
+        test1.draw(basicShader);
+
+        // crl::gui::MySphere test2;
+        // test2.modify(P3D(0, -2.5, 2.5), 3);
+        // test2.draw(basicShader);
 
         if (drawDebugInfo) controller->drawDebugInfo(&basicShader);
     }
@@ -433,6 +440,8 @@ public:
     bool showMOI = false;
     float eeDrawRadius = 0.01f;
 };
+
+
 
 }  // namespace locomotion
 }  // namespace app

@@ -38,6 +38,7 @@ public:
     void draw(const Shader &shader, const V3D &color) const;
     void draw(const Shader &shader) const;
 
+
     glm::mat4 getTransform() const;
 
 private:

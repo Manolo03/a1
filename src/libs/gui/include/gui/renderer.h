@@ -17,6 +17,55 @@ inline void drawSphere(const P3D &p, double r, const Shader &shader,
     sphere.draw(shader, color);
 }
 
+inline Model getSpheremodel(const P3D &p, double r) {
+    static Model sphere = Model(CRL_DATA_FOLDER "/meshes/sphere.obj");
+
+    sphere.position = p;
+    sphere.scale = V3D(2 * r, 2 * r, 2 * r);
+    return sphere;
+}
+
+inline void import_mesh(const Shader &shader, const V3D &color = V3D(1, 0, 0)){
+    static Model mesh = Model(CRL_DATA_FOLDER "/meshes/desert.obj"); //"/terrain/terrain.obj");
+    mesh.position = P3D(0,0,0);
+    mesh.scale = V3D(1,1,1);
+    mesh.draw(shader, color);
+}
+
+
+
+class MyModel {
+    public:
+        //Model mesh = Model(CRL_DATA_FOLDER "/meshes/desert.obj");
+        Model mesh = Model(CRL_DATA_FOLDER "/terrain/terrain.obj");
+        void modifyscale(const V3D size){
+            mesh.scale = size;
+            mesh.position = P3D(0,0,0);
+        }
+        void draw(const Shader &shader, const V3D &col = V3D(0.7, 0.7, 0.9)) {
+            mesh.draw(shader, col);
+        }
+    };
+
+class MySphere {
+    public:
+        Model mesh = Model(CRL_DATA_FOLDER "/meshes/sphere.obj");
+        //
+        // P3D p = ;
+        // int r = 3;
+
+        // mesh.position = P3D(0, -2.5, 2.5);
+        // mesh.scale = V3D(2 * 3, 2 * 3, 2 * 3);
+
+        void modify(const P3D &p, double r){
+            mesh.position = p;
+            mesh.scale = V3D(2 * r, 2 * r, 2 * r);
+        }
+        void draw(const Shader &shader, const V3D &col = V3D(0.7, 0.7, 0.9)) {
+            mesh.draw(shader, col);
+        }
+    };
+
 /**
  * p is center of ellipsode
  * orientation is orientation of ellipsoid

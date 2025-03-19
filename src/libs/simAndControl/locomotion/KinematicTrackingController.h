@@ -4,6 +4,8 @@
 #include <locomotion/LocomotionTrajectoryPlanner.h>
 #include <robot/RB.h>
 #include <robot/RBJoint.h>
+#include <gui/model.h>
+#include <gui/renderer.h>
 
 namespace crl {
 
@@ -39,23 +41,48 @@ public:
     }
 
     void computeAndApplyControlSignals(double dt, bool recordTrajectory) override {
+        crl::gui::MyModel test1;
+        P3D hitpoint;
         // set base pose. in this assignment, we just assume the base perfectly
         // follow target base trajectory.
         P3D targetPos =
             planner->getTargetTrunkPositionAtTime(planner->getSimTime() + dt);
         Quaternion targetOrientation = planner->getTargetTrunkOrientationAtTime(
             planner->getSimTime() + dt);
-
-        robot->setRootState(targetPos, targetOrientation);
+        
+        if(test1.mesh.hitByRay(P3D(targetPos[0], -5, targetPos[2]), V3D(0,1,0), hitpoint)){
+            robot->setRootState(targetPos + P3D(0,hitpoint.y, 0), targetOrientation);
+        }
+        else{
+            robot->setRootState(targetPos, targetOrientation);
+        }
+        
 
         // now we solve inverse kinematics for each limbs
         for (uint i = 0; i < robot->limbs.size(); i++) {
             P3D target = planner->getTargetLimbEEPositionAtTime(
                 robot->limbs[i], planner->getSimTime() + dt);
 
-            ikSolver->addEndEffectorTarget(
-                robot->limbs[i]->eeRB, robot->limbs[i]->ee->endEffectorOffset,
-                target);
+            // crl::gui::MySphere test1;
+            // test1.modify(P3D(0, -2.5, 2.5), 3);
+
+            
+            if(test1.mesh.hitByRay(P3D(target[0], -5, target[2]), V3D(0,1,0), hitpoint)){
+                ikSolver->addEndEffectorTarget(
+                    robot->limbs[i]->eeRB, robot->limbs[i]->ee->endEffectorOffset,
+                    target + P3D(0, hitpoint.y, 0));
+            }
+            else{
+                ikSolver->addEndEffectorTarget(
+                    robot->limbs[i]->eeRB, robot->limbs[i]->ee->endEffectorOffset,
+                    target);
+            }
+            // ikSolver->addEndEffectorTarget(
+            //     robot->limbs[i]->eeRB, robot->limbs[i]->ee->endEffectorOffset,
+            //     target);
+
+            
+                //target + offset); 
         }
 
         dVector q;
