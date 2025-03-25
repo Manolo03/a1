@@ -61,8 +61,8 @@ public:
             // TODO: your implementation should be here.
             
             for(int j = 0; j < endEffectorTargets.size(); j++){
-                //gcrr.estimate_linear_jacobian(endEffectorTargets[j].p, endEffectorTargets[j].rb, J_full);
-                gcrr.compute_dpdq(endEffectorTargets[j].p, endEffectorTargets[j].rb, J_full); //analytical jacobian
+                gcrr.estimate_linear_jacobian(endEffectorTargets[j].p, endEffectorTargets[j].rb, J_full);
+                //gcrr.compute_dpdq(endEffectorTargets[j].p, endEffectorTargets[j].rb, J_full); //analytical jacobian
                 J = J_full.block(0,6,3,q.size() -6 );
                 FK = V3D(gcrr.getWorldCoordinates(endEffectorTargets[j].p, endEffectorTargets[j].rb));
                 deltaq += (J.transpose()*J).ldlt().solve(J.transpose()*(V3D(endEffectorTargets[j].target)-FK));
